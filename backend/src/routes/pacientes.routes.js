@@ -7,8 +7,8 @@ import {
 
 const router = Router();
 
+router.post("/pacientes/novo", createPaciente);
 router.get("/pacientes", listPacientes);
 router.get("/pacientes/:id", getPaciente);
-router.post("/pacientes/novo", createPaciente);
 
 export default router;
