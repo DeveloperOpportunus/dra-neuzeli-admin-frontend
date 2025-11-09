@@ -102,5 +102,16 @@
   "bugs": {
     "url": "https://github.com/DeveloperOpportunus/dra-neuzeli-admin-frontend/issues"
   },
-  "homepage": "https://github.com/DeveloperOpportunus/dra-neuzeli-admin-frontend#readme"
+  "homepage": "https://github.com/DeveloperOpportunus/dra-neuzeli-admin-frontend#readme",
+
+  {
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "build:dev": "vite build --mode development",
+    "lint": "eslint .",
+    "preview": "vite preview",
+    "start": "serve -s dist -l 8080"
+  }
+}
 }
