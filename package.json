@@ -8,7 +8,8 @@
     "build": "vite build",
     "build:dev": "vite build --mode development",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "start": "serve -s dist -l 8080"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",
@@ -84,11 +85,11 @@
     "lovable-tagger": "^1.1.11",
     "nodemon": "^3.1.10",
     "postcss": "^8.5.6",
+    "serve": "^14.0.1",
     "tailwindcss": "^3.4.17",
     "typescript": "^5.8.3",
     "typescript-eslint": "^8.38.0",
-    "vite": "^5.4.19",
-    "serve": "^14.0.1"
+    "vite": "^5.4.19"
   },
   "description": "**URL**: https://lovable.dev/projects/e4058936-a5d5-4a81-a58c-292b5cd0a3d5",
   "main": "eslint.config.js",
@@ -102,16 +103,5 @@
   "bugs": {
     "url": "https://github.com/DeveloperOpportunus/dra-neuzeli-admin-frontend/issues"
   },
-  "homepage": "https://github.com/DeveloperOpportunus/dra-neuzeli-admin-frontend#readme",
-
-  {
-  "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "build:dev": "vite build --mode development",
-    "lint": "eslint .",
-    "preview": "vite preview",
-    "start": "serve -s dist -l 8080"
-  }
-}
+  "homepage": "https://github.com/DeveloperOpportunus/dra-neuzeli-admin-frontend#readme"
 }
