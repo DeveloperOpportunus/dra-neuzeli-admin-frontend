@@ -36,4 +36,6 @@ app.use('/api', pacientesRouter);
 app.use((req, res) => res.status(404).json({ error: "Endpoint não encontrado." }));
 
 const port = process.env.PORT || 3001;
-app.listen(port, () => console.log(`Backend rodando em http://localhost:${port}`));
+app.listen(port, "0.0.0.0", () => {
+  console.log(`🚀 Backend rodando em http://0.0.0.0:${port}`);
+});
