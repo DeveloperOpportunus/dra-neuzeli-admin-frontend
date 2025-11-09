@@ -16,9 +16,3 @@ export function authHeaders() {
   return token ? { Authorization: `Bearer ${token}` } : {};
 }
 
-// Mock de endpoints para desenvolvimento
-// export const ENDPOINTS = {
-//   login: '/api/login', // TODO: conectar com backend real
-//   pacientes: '/api/pacientes', // TODO: conectar com backend real
-//   analytics: '/api/analytics', // TODO: conectar com API Python (Pandas)
-// };

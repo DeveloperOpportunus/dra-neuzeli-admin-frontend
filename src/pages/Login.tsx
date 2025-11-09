@@ -5,7 +5,8 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
-import { ENDPOINTS } from "@/config/api.ts";
+import { ENDPOINTS } from "@/config/api";
+import { setToken, setUser } from "@/lib/auth";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -36,8 +37,9 @@ const Login = () => {
       }
 
       const { token, user } = await res.json();
-      localStorage.setItem("auth_token", token);
-
+      setToken(token);
+      if (user) setUser(user);
+      
       toast({
         title: "Bem-vindo(a)!",
         description: `Olá, ${user.nome}. Login efetuado com sucesso.`,

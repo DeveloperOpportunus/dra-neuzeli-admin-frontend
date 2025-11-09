@@ -30,8 +30,8 @@ app.use(cors({
 app.use(express.json());
 app.get("/health", (_req, res) => res.json({ ok: true, ts: new Date().toISOString() }));
 
-app.use('/', authRouter)
-app.use('/', pacientesRouter);
+app.use('/api', authRouter)
+app.use('/api', pacientesRouter);
 
 app.use((req, res) => res.status(404).json({ error: "Endpoint não encontrado." }));
 
