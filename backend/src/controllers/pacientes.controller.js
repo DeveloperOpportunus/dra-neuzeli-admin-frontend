@@ -1,4 +1,4 @@
-import { supabaseAdmin } from "../services/supabase.service";
+import { supabaseAdmin } from "../services/supabase.service.js";
 
 // GET, lista todos os pacientes.
 export async function listPacientes(req, res) {

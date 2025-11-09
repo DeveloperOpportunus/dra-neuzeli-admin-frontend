@@ -3,7 +3,7 @@ import {
     listPacientes,
     getPaciente,
     createPaciente
-} from "../controllers/pacientes.controller";
+} from "../controllers/pacientes.controller.js";
 
 const router = Router();
 
