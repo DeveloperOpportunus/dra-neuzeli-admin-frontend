@@ -16,14 +16,3 @@ export const supabaseAdmin = createClient(url, serviceRoleKey, {
     },
 });
 
-
-async function ping() {
-  try {
-    const { data, error } = await supabaseAdmin.from("pacientes").select("id").limit(1);
-    if (error) console.error("Supabase ping error:", error.message);
-    else console.log("Supabase ping ok:", data?.length ?? 0);
-  } catch (e) {
-    console.error("Supabase ping exception:", e.message);
-  }
-}
-ping();
