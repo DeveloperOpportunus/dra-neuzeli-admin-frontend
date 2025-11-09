@@ -1,6 +1,6 @@
 import bcrypt from 'bcryptjs';
-import { supabaseAdmin } from '../services/supabase.service';
-import { signJwt } from '../utils/jwt';
+import { supabaseAdmin } from '../services/supabase.service.js';
+import { signJwt } from '../utils/jwt.js';
 
 // POST, login do usuário "/login"
 export async function login (req, res) {
