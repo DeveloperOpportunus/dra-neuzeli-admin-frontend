@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
+import { ENDPOINTS } from "@/config/api.ts";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -17,22 +18,41 @@ const Login = () => {
     e.preventDefault();
     setLoading(true);
 
-    // TODO: Integrar com endpoint real do backend (Node + Express)
-    // const response = await fetch(`${API_BASE_URL}/api/login`, {
-    //   method: 'POST',
-    //   headers: { 'Content-Type': 'application/json' },
-    //   body: JSON.stringify({ email, senha })
-    // });
-
-    // Simulação de login (remover quando integrar backend real)
-    setTimeout(() => {
-      toast({
-        title: "Login realizado com sucesso!",
-        description: `Bem-vinda, ${email}`,
+    try {
+      const res = await fetch(ENDPOINTS.login, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ 
+          email: email.trim().toLowerCase(), 
+          senha, 
+        }),
       });
+
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({}));
+        throw new Error(err.error || "Falha ao realizar login");
+      }
+
+      const { token, user } = await res.json();
+      localStorage.setItem("auth_token", token);
+
+      toast({
+        title: "Bem-vindo(a)!",
+        description: `Olá, ${user.nome}. Login efetuado com sucesso.`,
+      });
+
+      navigate('/pacientes');
+    } catch (error: any) {
+      toast({
+        title: "Erro ao efetuar login",
+        description: error.message || "Verifique suas credenciais e tente novamente.",
+        variant: "destructive",
+      });
+    } finally {
       setLoading(false);
-      navigate("/painel");
-    }, 1000);
+    }
   };
 
   return (
