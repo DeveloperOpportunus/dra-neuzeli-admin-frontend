@@ -167,3 +167,72 @@ export async function createPaciente(req, res) {
     return res.status(500).json({ error: e?.message || "Erro interno" });
   }
 }
+
+
+// PUT, atualiza um paciente por ID.
+export async function updatePaciente(req, res) {
+  try {
+    const { id } = req.params;
+    const body = req.body ?? {};
+    const { dadosPessoais = {} } = body;
+
+    // obrigatórios
+    const nome = dadosPessoais?.nome?.trim();
+    const email = dadosPessoais?.email?.trim()?.toLowerCase();
+    const telefone = (dadosPessoais?.telefone || "").trim();
+    const cpf = onlyDigits(dadosPessoais?.cpf);
+
+    if (!nome) return res.status(400).json({ error: "Nome é obrigatório." });
+    if (!email) return res.status(400).json({ error: "Email é obrigatório." });
+    if (!telefone) return res.status(400).json({ error: "Telefone é obrigatório." });
+    if (!cpf) return res.status(400).json({ error: "CPF é obrigatório." });
+
+    if (!/^55\d{10,11}$/.test(telefone)) {
+      return res.status(400).json({ error: "Telefone deve começar com 55 + DDD + número (ex.: 5521999999999)." });
+    }
+    if (!/^\d{11}$/.test(cpf)) {
+      return res.status(400).json({ error: "CPF deve ter 11 dígitos." });
+    }
+
+    const update = {
+      nome,
+      email,
+      telefone,
+      data_nascimento: nz(dadosPessoais.dataNascimento),
+      sexo: nz(dadosPessoais.sexo),
+      cpf: nz(cpf),
+      logradouro: nz(dadosPessoais.logradouro),
+      numero: nz(dadosPessoais.numero),
+      complemento: nz(dadosPessoais.complemento),
+      bairro: nz(dadosPessoais.bairro),
+      cidade: nz(dadosPessoais.cidade),
+      estado: nz(dadosPessoais.estado),
+      cep: nz(onlyDigits(dadosPessoais.cep)),
+      plano_saude: nz(dadosPessoais.planoSaude),
+      numero_carteira: nz(dadosPessoais.numeroCarteira),
+      observacoes: nz(dadosPessoais.observacoes),
+      // métricas básicas (se vierem)
+      altura_cm: dadosPessoais.altura_cm !== undefined ? nz(dadosPessoais.altura_cm) : undefined,
+      peso_kg:   dadosPessoais.peso_kg   !== undefined ? nz(dadosPessoais.peso_kg)   : undefined,
+      updated_at: new Date().toISOString(),
+    };
+
+    // remove keys undefined (supabase ignora, mas por garantia)
+    Object.keys(update).forEach((k) => update[k] === undefined && delete update[k]);
+
+    const { data, error } = await supabaseAdmin
+      .from("pacientes")
+      .update(update)
+      .eq("id", id)
+      .select("*")
+      .single();
+
+    if (error) return res.status(400).json({ error: error.message });
+    if (!data) return res.status(404).json({ error: "Paciente não encontrado." });
+
+    return res.json(data);
+  } catch (e) {
+    console.error(e);
+    return res.status(500).json({ error: e?.message || "Erro interno" });
+  }
+}

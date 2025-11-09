@@ -27,21 +27,57 @@ const prettyPhone = (digits?: string | null) => {
   const part2 = rest.length === 9 ? rest.slice(5) : rest.slice(4);
   return `+${country} (${ddd}) ${part1}-${part2}`;
 };
-const prettyDate = (iso?: string | null) => {
-  if (!iso) return "-";
-  const d = new Date(iso);
-  if (isNaN(d.getTime())) return iso;
+
+
+const prettyDate = (value?: string | null) => {
+  if (!value) return "-";
+
+  // 1) "YYYY-MM-DD" (date puro)
+  const m = value.match(/^(\d{4})-(\d{2})-(\d{2})$/);
+  if (m) {
+    const [, y, mo, d] = m;
+    return `${d}/${mo}/${y}`;
+  }
+
+  // 2) ISO com 'Z' (UTC) -> formata em UTC pra não "voltar um dia"
+  if (/Z$/.test(value)) {
+    const d = new Date(value);
+    if (isNaN(d.getTime())) return value;
+    return new Intl.DateTimeFormat("pt-BR", { timeZone: "UTC" }).format(d);
+  }
+
+  // 3) fallback
+  const d = new Date(value);
+  if (isNaN(d.getTime())) return value;
   return d.toLocaleDateString("pt-BR");
 };
-const calcIdade = (iso?: string | null) => {
-  if (!iso) return null;
-  const d = new Date(iso);
-  if (isNaN(d.getTime())) return null;
-  const hoje = new Date();
-  let idade = hoje.getFullYear() - d.getFullYear();
-  const m = hoje.getMonth() - d.getMonth();
-  if (m < 0 || (m === 0 && hoje.getDate() < d.getDate())) idade--;
-  return idade;
+
+const calcIdade = (value?: string | null) => {
+  if (!value) return null;
+
+  // "YYYY-MM-DD" (date puro)
+  const m = value.match(/^(\d{4})-(\d{2})-(\d{2})$/);
+  let birth: Date;
+  if (m) {
+    const [_, y, mo, d] = m;
+    // cria como local-sem-hora, evitando TZ
+    birth = new Date(Number(y), Number(mo) - 1, Number(d));
+  } else if (/Z$/.test(value)) {
+    // ISO-UTC -> usa UTC para extrair Y/M/D
+    const d = new Date(value);
+    if (isNaN(d.getTime())) return null;
+    birth = new Date(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate());
+  } else {
+    const d = new Date(value);
+    if (isNaN(d.getTime())) return null;
+    birth = d;
+  }
+
+  const today = new Date();
+  let age = today.getFullYear() - birth.getFullYear();
+  const mDiff = today.getMonth() - birth.getMonth();
+  if (mDiff < 0 || (mDiff === 0 && today.getDate() < birth.getDate())) age--;
+  return age;
 };
 
 type Paciente = {
@@ -284,7 +320,7 @@ const DetalhePaciente = () => {
           {/* Dados Pessoais */}
           <Card className="shadow-card">
             <CardHeader>
-              <CardTitle>🧍 Dados Pessoais</CardTitle>
+              <CardTitle>Dados Pessoais</CardTitle>
             </CardHeader>
             <CardContent className="space-y-3">
               <div className="grid grid-cols-2 gap-x-4 gap-y-2">
@@ -340,7 +376,7 @@ const DetalhePaciente = () => {
           {/* Bioimpedância (se houver) */}
           <Card className="shadow-card">
             <CardHeader>
-              <CardTitle>⚖️ Bioimpedância</CardTitle>
+              <CardTitle>Bioimpedância</CardTitle>
               <CardDescription>
                 {bio ? `Avaliação: ${prettyDate(bio.data_avaliacao)}` : "Sem registros"}
               </CardDescription>
@@ -410,7 +446,7 @@ const DetalhePaciente = () => {
         {/* Perimetria */}
         <Card className="shadow-card">
           <CardHeader>
-            <CardTitle>📏 Perimetria</CardTitle>
+            <CardTitle>Perimetria</CardTitle>
             <CardDescription>
               {perimetria ? `Avaliação: ${prettyDate(perimetria.data_avaliacao)}` : "Sem registros"}
             </CardDescription>

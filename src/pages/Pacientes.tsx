@@ -1,3 +1,4 @@
+// src/pages/pacientes/Pacientes.tsx
 import MainLayout from "@/components/layout/MainLayout";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -14,6 +15,35 @@ type Paciente = {
   idade?: number;
   email?: string;
   telefone?: string;
+  data_nascimento?: string | null; // vem do backend
+};
+
+// --- helpers ---
+const calcIdade = (value?: string | null) => {
+  if (!value) return undefined;
+
+  // "YYYY-MM-DD" (date puro)
+  const m = value.match(/^(\d{4})-(\d{2})-(\d{2})$/);
+  let birth: Date;
+  if (m) {
+    const [, y, mo, d] = m;
+    birth = new Date(Number(y), Number(mo) - 1, Number(d)); // sem TZ
+  } else if (/Z$/.test(value)) {
+    // ISO com Z -> usa UTC para extrair dia/mês/ano
+    const d = new Date(value);
+    if (isNaN(d.getTime())) return undefined;
+    birth = new Date(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate());
+  } else {
+    const d = new Date(value);
+    if (isNaN(d.getTime())) return undefined;
+    birth = d;
+  }
+
+  const today = new Date();
+  let age = today.getFullYear() - birth.getFullYear();
+  const mDiff = today.getMonth() - birth.getMonth();
+  if (mDiff < 0 || (mDiff === 0 && today.getDate() < birth.getDate())) age--;
+  return age;
 };
 
 const Pacientes = () => {
@@ -27,10 +57,16 @@ const Pacientes = () => {
     let mounted = true;
     (async () => {
       try {
-        const data = await apiFetch<Paciente[]>(ENDPOINTS.pacientes);
-        if (mounted) setPacientes(
-          (data ?? []).map((p: any) => ({ ...p, id: p.id ?? p._id }))
-        );
+        const data = await apiFetch<any[]>(ENDPOINTS.pacientes);
+        if (mounted) {
+          const norm = (data ?? []).map((p) => ({
+            ...p,
+            id: p.id ?? p._id,
+            // calcula idade se não vier pronta
+            idade: p.idade ?? calcIdade(p.data_nascimento),
+          }));
+          setPacientes(norm);
+        }
       } catch (e: any) {
         if (mounted) setErro(e.message || "Falha ao carregar pacientes");
       } finally {
@@ -117,7 +153,7 @@ const Pacientes = () => {
                       >
                         <td className="p-4 font-medium">{paciente.nome}</td>
                         <td className="p-4 text-muted-foreground">
-                          {paciente.idade != null ? `${paciente.idade} anos` : "—"}
+                          {paciente.idade != null ? `${paciente.idade}` : "—"}
                         </td>
                         <td className="p-4 text-muted-foreground">{paciente.email || "—"}</td>
                         <td className="p-4 text-muted-foreground">{paciente.telefone || "—"}</td>
