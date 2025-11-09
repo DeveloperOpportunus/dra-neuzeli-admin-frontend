@@ -286,7 +286,7 @@ const NovoPaciente = () => {
             {/* DADOS PESSOAIS */}
             <Card className="shadow-card">
               <CardHeader>
-                <CardTitle>🧍 Dados Pessoais</CardTitle>
+                <CardTitle>Dados Pessoais</CardTitle>
                 <CardDescription>Informações do paciente</CardDescription>
               </CardHeader>
               <CardContent className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -390,7 +390,7 @@ const NovoPaciente = () => {
             {/* PERIMETRIA */}
             <Card className="shadow-card">
               <CardHeader>
-                <CardTitle>📏 Perimetria</CardTitle>
+                <CardTitle>Perimetria</CardTitle>
                 <CardDescription>Medidas corporais</CardDescription>
               </CardHeader>
               <CardContent className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -513,7 +513,7 @@ const NovoPaciente = () => {
             {/* BIOIMPEDÂNCIA */}
             <Card className="shadow-card">
               <CardHeader>
-                <CardTitle>⚖️ Bioimpedância</CardTitle>
+                <CardTitle>Bioimpedância</CardTitle>
                 <CardDescription>Análise de composição corporal</CardDescription>
               </CardHeader>
               <CardContent className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
