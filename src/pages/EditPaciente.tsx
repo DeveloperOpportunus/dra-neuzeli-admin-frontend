@@ -1,5 +1,5 @@
 import MainLayout from "@/components/layout/MainLayout";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
@@ -22,23 +22,18 @@ const prune = (obj: Record<string, any>) =>
   Object.fromEntries(Object.entries(obj).filter(([, v]) => v !== null && v !== undefined && v !== ""));
 
 function validate(dp: any) {
-  const errors: string[] = [];
-  if (!dp.nome?.trim()) errors.push("Nome é obrigatório.");
-  if (!dp.email?.trim()) errors.push("Email é obrigatório.");
-
   const phoneDigits = normalizePhoneBR(dp.telefone || "");
-  if (!dp.telefone?.trim()) {
-    errors.push("Telefone é obrigatório.");
-  } else if (!/^55\d{10,11}$/.test(phoneDigits)) {
+  const cpfDigits = onlyDigits(dp.cpf || "");
+
+  const errors: string[] = [];
+  if (dp.telefone?.trim() && !/^55\d{10,11}$/.test(phoneDigits)) {
     errors.push("Telefone deve começar com 55 + DDD + número (ex.: 5521999999999).");
   }
 
-  const cpfDigits = onlyDigits(dp.cpf || "");
-  if (!dp.cpf?.trim()) {
-    errors.push("CPF é obrigatório.");
-  } else if (!/^\d{11}$/.test(cpfDigits)) {
+  if (dp.cpf?.trim() && !/^\d{11}$/.test(cpfDigits)) {
     errors.push("CPF deve ter 11 dígitos.");
   }
+
   return { errors, phoneDigits, cpfDigits };
 }
 
@@ -214,7 +209,6 @@ export default function EditPaciente() {
             <Card className="shadow-card">
               <CardHeader>
                 <CardTitle>Dados Pessoais</CardTitle>
-                <CardDescription>Campos obrigatórios: Nome, Email, Telefone, CPF</CardDescription>
               </CardHeader>
               <CardContent className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 <div className="space-y-2">
