@@ -213,26 +213,26 @@ export default function EditPaciente() {
           <div className="space-y-6">
             <Card className="shadow-card">
               <CardHeader>
-                <CardTitle>🧍 Dados Pessoais</CardTitle>
+                <CardTitle>Dados Pessoais</CardTitle>
                 <CardDescription>Campos obrigatórios: Nome, Email, Telefone, CPF</CardDescription>
               </CardHeader>
               <CardContent className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 <div className="space-y-2">
                   <Label htmlFor="nome">Nome *</Label>
-                  <Input id="nome" value={form.nome} onChange={(e) => setForm({ ...form, nome: e.target.value })} required />
+                  <Input id="nome" value={form.nome} onChange={(e) => setForm({ ...form, nome: e.target.value })}  />
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="email">Email *</Label>
-                  <Input id="email" type="email" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} required />
+                  <Input id="email" type="email" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })}  />
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="telefone">Telefone (55+DDD+número) *</Label>
-                  <Input id="telefone" value={form.telefone} onChange={(e) => setForm({ ...form, telefone: e.target.value })} required />
+                  <Input id="telefone" value={form.telefone} onChange={(e) => setForm({ ...form, telefone: e.target.value })}  />
                 </div>
 
                 <div className="space-y-2">
                   <Label htmlFor="cpf">CPF *</Label>
-                  <Input id="cpf" value={form.cpf} onChange={(e) => setForm({ ...form, cpf: e.target.value })} required />
+                  <Input id="cpf" value={form.cpf} onChange={(e) => setForm({ ...form, cpf: e.target.value })}  />
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="dataNascimento">Nascimento</Label>
