@@ -55,11 +55,6 @@ export async function createPaciente(req, res) {
     const telefone = (dadosPessoais?.telefone || "").trim(); // deve chegar "55..."
     const cpf = onlyDigits(dadosPessoais?.cpf);
 
-    if (!nome) return res.status(400).json({ error: "Nome é obrigatório." });
-    if (!email) return res.status(400).json({ error: "Email é obrigatório." });
-    if (!telefone) return res.status(400).json({ error: "Telefone é obrigatório." });
-    if (!cpf) return res.status(400).json({ error: "CPF é obrigatório." });
-
     // Checagens leves (pode relaxar se quiser)
     if (!/^55\d{10,11}$/.test(telefone)) {
       return res.status(400).json({ error: "Telefone deve começar com 55 + DDD + número (ex.: 5521999999999)." });
@@ -94,7 +89,6 @@ export async function createPaciente(req, res) {
         observacoes: nz(dadosPessoais.observacoes),
         altura_cm: nz(altura_cm),
         peso_kg: nz(peso_kg),
-        status: "ativo", // opcional
       })
       .select("*")
       .single();
