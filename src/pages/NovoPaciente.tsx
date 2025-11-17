@@ -293,20 +293,20 @@ const NovoPaciente = () => {
                 <div className="space-y-2">
                   <Label htmlFor="nome">Nome *</Label>
                   <Input id="nome" value={dadosPessoais.nome}
-                    onChange={(e) => setDadosPessoais({ ...dadosPessoais, nome: e.target.value })} required />
+                    onChange={(e) => setDadosPessoais({ ...dadosPessoais, nome: e.target.value })}  />
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="email">Email *</Label>
                   <Input id="email" type="email" inputMode="email" autoComplete="email"
                     value={dadosPessoais.email}
-                    onChange={(e) => setDadosPessoais({ ...dadosPessoais, email: e.target.value })} required />
+                    onChange={(e) => setDadosPessoais({ ...dadosPessoais, email: e.target.value })}  />
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="telefone">Telefone (DDD+Número) *</Label>
                   <Input id="telefone" inputMode="tel" autoComplete="tel"
                     placeholder="(21) 99999-8726"
                     value={dadosPessoais.telefone}
-                    onChange={(e) => setDadosPessoais({ ...dadosPessoais, telefone: e.target.value })} required />
+                    onChange={(e) => setDadosPessoais({ ...dadosPessoais, telefone: e.target.value })}  />
                 </div>
 
                 <div className="space-y-2">
