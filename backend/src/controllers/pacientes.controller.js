@@ -176,11 +176,6 @@ export async function updatePaciente(req, res) {
     const telefone = (dadosPessoais?.telefone || "").trim();
     const cpf = onlyDigits(dadosPessoais?.cpf);
 
-    if (!nome) return res.status(400).json({ error: "Nome é obrigatório." });
-    if (!email) return res.status(400).json({ error: "Email é obrigatório." });
-    if (!telefone) return res.status(400).json({ error: "Telefone é obrigatório." });
-    if (!cpf) return res.status(400).json({ error: "CPF é obrigatório." });
-
     if (!/^55\d{10,11}$/.test(telefone)) {
       return res.status(400).json({ error: "Telefone deve começar com 55 + DDD + número (ex.: 5521999999999)." });
     }
