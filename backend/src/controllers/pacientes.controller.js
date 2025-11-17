@@ -176,10 +176,11 @@ export async function updatePaciente(req, res) {
     const telefone = (dadosPessoais?.telefone || "").trim();
     const cpf = onlyDigits(dadosPessoais?.cpf);
 
-    if (!/^55\d{10,11}$/.test(telefone)) {
+    if (telefone && !/^55\d{10,11}$/.test(telefone)) {
       return res.status(400).json({ error: "Telefone deve começar com 55 + DDD + número (ex.: 5521999999999)." });
     }
-    if (!/^\d{11}$/.test(cpf)) {
+    
+    if (cpf && !/^\d{11}$/.test(cpf)) {
       return res.status(400).json({ error: "CPF deve ter 11 dígitos." });
     }
 
