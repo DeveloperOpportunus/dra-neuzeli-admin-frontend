@@ -35,7 +35,7 @@ const Dashboard = () => {
             Análise de dados e estatísticas dos pacientes
           </p>
           <p className="text-sm text-primary mt-2 font-medium">
-            🐍 Preparado para integração com API Python + Pandas
+            Preparado para integração com API 
           </p>
         </div>
 
@@ -181,21 +181,14 @@ const Dashboard = () => {
         <Card className="shadow-card bg-accent/20 border-primary/30">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
-              🔮 Integração Python em Desenvolvimento
+              Integração em Desenvolvimento
             </CardTitle>
           </CardHeader>
           <CardContent>
             <p className="text-muted-foreground">
-              Este dashboard está preparado para receber dados processados por <strong>Python + Pandas</strong>.
-              Quando o backend de análise estiver pronto, os gráficos e estatísticas serão alimentados
+              Este dashboard está preparado para receber dados processados quando o backend de análise estiver pronto, os gráficos e estatísticas serão alimentados
               automaticamente pela API <code className="px-2 py-1 bg-muted rounded text-sm">/api/analytics</code>.
             </p>
-            <div className="mt-4 p-4 bg-muted/50 rounded-lg">
-              <p className="text-sm font-mono text-muted-foreground">
-                // TODO: Integrar com endpoint Python<br />
-                // const response = await fetch(`{"{API_BASE_URL}"}/api/analytics`);
-              </p>
-            </div>
           </CardContent>
         </Card>
       </div>
